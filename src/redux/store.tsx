@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import characterReducer from './charactersSlice'
+import inputReducer from './inputSlice'
 
 export const store = configureStore({
   reducer: {
-    characters: characterReducer
+    characters: characterReducer,
+    inputState: inputReducer
   },
 })
 

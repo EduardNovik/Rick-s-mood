@@ -9,7 +9,7 @@ export type CharacterResultsProp = {
 };
 
 export type CharactersDataProp = {
-  info: { pages: number };
+  info: { pages: number; count: number|null };
   results: CharacterResultsProp[];
 };
 
@@ -19,7 +19,7 @@ type CharactersStateProp = {
 };
 
 const initialState: CharactersStateProp = {
-  data: { info: { pages: 0 }, results: [] },
+  data: { info: { pages: 0, count: null }, results: [] },
   loading: false,
 };
 
@@ -35,7 +35,7 @@ const graphqlQuery = ({ page, name }: InputSearchProp) => {
   return {
     query: `query allCharacters ($page:Int, $filter:FilterCharacter){
               characters(page:$page, filter:$filter){
-                info{pages}
+                info{pages, count}
                 results {
                     id
                     name
@@ -51,12 +51,14 @@ const graphqlQuery = ({ page, name }: InputSearchProp) => {
   };
 };
 
-export const fetchCharactersAsync = createAsyncThunk(
+
+
+export const fetchCharactersAsync = createAsyncThunk<CharactersDataProp, InputSearchProp, { rejectValue: string }>(
   "characters/fetchCharacters",
   async (
-    { page, name }: InputSearchProp,
+    { page, name },
     { rejectWithValue }
-  ): Promise<CharactersDataProp | []> => {
+  ) => {
     try {
       const response = await axios({
         url: endpoint,
@@ -64,12 +66,12 @@ export const fetchCharactersAsync = createAsyncThunk(
         headers: headers,
         data: graphqlQuery({ page, name }),
       });
+      console.log(response.data.data);
       return response.data.data.characters;
     } catch (error: any) {
       const errorMessage: string =
         error.response.data.message || "Unknown error";
-      rejectWithValue(errorMessage);
-      return [];
+      return rejectWithValue(errorMessage);
     }
   }
 );
@@ -85,17 +87,13 @@ export const charactersSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(
       fetchCharactersAsync.fulfilled,
-    (state, action: PayloadAction<CharactersDataProp | []>) => {
-      state.loading = false;
-      if (Array.isArray(action.payload)) {
-        state.data = [...state.data, ...action.payload];
-      } else {
+      (state, action: PayloadAction<CharactersDataProp>) => {
+        state.loading = false;
         state.data = {
           info: action.payload.info,
           results: [...state.data.results, ...action.payload.results],
         };
       }
-    }
     );
     builder.addCase(
       fetchCharactersAsync.rejected,
@@ -112,3 +110,11 @@ export const charactersSlice = createSlice({
 export const { updateState } = charactersSlice.actions;
 
 export default charactersSlice.reducer;
+
+
+// if (Array.isArray(action.payload)) {
+//   state.data = [...state.data, ...action.payload];
+// } else {
+// }
+
+ 

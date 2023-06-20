@@ -18,7 +18,6 @@ import { Outlet } from "react-router-dom";
 import ModalSearch from "../Search/ModalSearch";
 
 const pages: string[] = ["Home", "Favorites", "About"];
-const settings: string[] = ["Profile", "Logout"];
 
 const Header: FC = (): ReactElement => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -47,7 +46,10 @@ const Header: FC = (): ReactElement => {
     <>
       <AppBar
         position="fixed"
-        sx={{ backdropFilter: "blur(10px)", backgroundColor: "rgb(39, 43, 51)" }}
+        sx={{
+          backdropFilter: "blur(10px)",
+          backgroundColor: "rgb(39, 43, 51)",
+        }}
       >
         <Container maxWidth={false}>
           <Toolbar disableGutters>
@@ -89,6 +91,7 @@ const Header: FC = (): ReactElement => {
               >
                 <MenuIcon />
               </IconButton>
+              {/* 3 lines menu */}
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorElNav}
@@ -123,6 +126,16 @@ const Header: FC = (): ReactElement => {
                     </Typography>
                   </MenuItem>
                 ))}
+                <Box
+                  sx={{
+                    display: { xs: "flex", md: "none" },
+                    "&:hover": {
+                      backgroundColor: "#f5f5f5",
+                    },
+                  }}
+                >
+                  <ModalSearch />
+                </Box>
               </Menu>
             </Box>
             {/* Logo in xs */}
@@ -164,7 +177,7 @@ const Header: FC = (): ReactElement => {
                       textTransform: "none",
                       transition: "all 0.2s",
                       "&:hover": {
-                        boxShadow: "0px 0px 20px 0px dimgray",
+                        boxShadow: "0px 0px 15px 2px pink",
                         transform: "scale(90%)",
                       },
                     }}
@@ -174,44 +187,21 @@ const Header: FC = (): ReactElement => {
                 </Link>
               ))}
             </Box>
-            {/* Menu 3 lines */}
-            <Box sx={{ flexGrow: 0, pl: "10px", display: "flex" }}>
-              <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            {/* Search btn*/}
+            <Box sx={{ flexGrow: 0, display: "flex" }}>
+              <Box
+                sx={{
+                  display: { xs: "none", md: "flex" },
+                  borderRadius: "5px",
+                  transition: "all 0.2s",
+                  "&:hover": {
+                    boxShadow: "0px 0px 15px 2px pink",
+                    transform: "scale(90%)",
+                  },
+                }}
+              >
                 <ModalSearch />
               </Box>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="E" src="" />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                <Box
-                  sx={{
-                    display: { xs: "flex", md: "none" },
-                    justifyContent: "center",
-                  }}
-                >
-                  <ModalSearch />
-                </Box>
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">LogOut</Typography>
-                </MenuItem>
-              </Menu>
             </Box>
           </Toolbar>
         </Container>
