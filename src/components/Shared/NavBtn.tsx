@@ -1,5 +1,3 @@
-import * as React from "react";
-import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { FC, ReactElement } from "react";
 import ReplyIcon from "@mui/icons-material/Reply";
@@ -17,7 +15,7 @@ const NavBtn: FC = (): ReactElement => {
         backdropFilter: "blur(1.5rem)",
         border: "1px solid gray",
         "&:hover": {
-          boxShadow: "0px 0px 20px 0px dimgray",
+          boxShadow: "0px 0px 20px 10px pink",
         },
       }}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
@@ -26,7 +24,7 @@ const NavBtn: FC = (): ReactElement => {
         sx={{
           transform: "rotate(90deg)",
           backgroundColor: "transparent",
-          color: "dimgray",
+          color: "gray",
         }}
       />
     </Button>

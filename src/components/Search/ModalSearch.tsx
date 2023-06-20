@@ -5,7 +5,7 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 
-import { FC, ReactElement, useState } from "react";
+import { FC, ReactElement, useRef, useState } from "react";
 import { AppDispatch, RootState } from "../../redux/store";
 import { CharacterResultsProp } from "../../redux/charactersSlice";
 
@@ -13,6 +13,7 @@ import { fetchCharactersAsync } from "../../redux/charactersSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/exports";
 import { updateState } from "../../redux/charactersSlice";
+import { updateInputState } from "../../redux/inputSlice";
 
 const style = {
   // eslint-disable-next-line @typescript-eslint/prefer-as-const
@@ -27,26 +28,27 @@ const style = {
 
 const ModalSearch: FC = (): ReactElement => {
   const [open, setOpen] = React.useState<boolean>(false);
+  const [inputData, setInputData] = useState<string>("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [inputData, setInputData] = useState<string>("");
   const dispatch = useDispatch<AppDispatch>();
   const characters = useSelector<any, CharacterResultsProp[]>(
     (state) => state.characters.data.results
   );
-  console.log(characters);
+  // console.log(characters);
 
   const handleSearchBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
-      event.preventDefault();
-      dispatch(updateState({ info: { pages: 0 }, results: [] }));
-      dispatch(fetchCharactersAsync({ page: 1, name: inputData }));
-      handleClose();
-   
+    event.preventDefault();
+    dispatch(updateInputState(inputData));
+    dispatch(updateState({ info: { pages: 0, count: 0 }, results: [] }));
+    dispatch(fetchCharactersAsync({ page: 1, name: inputData }));
+    handleClose();
   };
   const handleSearchInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      dispatch(updateState({ info: { pages: 0 }, results: [] }));
+      dispatch(updateInputState(inputData));
+      dispatch(updateState({ info: { pages: 0, count: 0 }, results: [] }));
       dispatch(fetchCharactersAsync({ page: 1, name: inputData }));
       handleClose();
     }
@@ -54,7 +56,17 @@ const ModalSearch: FC = (): ReactElement => {
 
   return (
     <Box>
-      <Button onClick={handleOpen}>
+      <Button
+        onClick={handleOpen}
+        sx={{
+
+          color: "white",
+
+          "&:hover": {
+            backgroundColor: "transparent",
+          },
+        }}
+      >
         <SearchIcon sx={{ color: { xs: "black", md: "white" } }} />
       </Button>
       <Modal
