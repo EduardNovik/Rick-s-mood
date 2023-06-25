@@ -64,10 +64,16 @@ const MusicPlayerSlider = () => {
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const handleVolumeChange = (event: any, newValue: number) => {
-    setVolume(newValue);
+  const handleVolumeChange = (event: any, newValue: number|number[]) => {
     if (audioRef.current) {
-      audioRef.current.volume = newValue / 100;
+      if(Array.isArray(newValue)){
+      audioRef.current.volume = newValue[0] / 100;
+      setVolume(newValue[0]);
+
+      }else{
+        audioRef.current.volume = newValue / 100;
+        setVolume(newValue);
+      }
     }
   };
 
@@ -83,22 +89,27 @@ const MusicPlayerSlider = () => {
     }
   };
 
-  const handlePositionChange = (event: any, newValue: number) => {
+  const handlePositionChange = (event: any, newValue: number| number[]) => {
     const audioElement = audioRef.current;
+    console.log(audioRef.current)
+    console.log(newValue);
+    console.log('are you working?');
     if (audioElement) {
-      audioElement.currentTime = newValue;
-      setPosition(newValue);      
+      if(Array.isArray(newValue)){
+        audioElement.currentTime = newValue[newValue.length-1];
+        setPosition(newValue[newValue.length-1]);
+        console.log(newValue[newValue.length-1], 'hey array');
+      }else{
+        console.log('hey gay');
+        console.log(event.target.value);
+        audioElement.currentTime = newValue;
+        setPosition(newValue);     
+      }
     }
   };
 
-  useEffect(() => {
-    const audioElement = audioRef.current;
-    if (audioElement) {
-      audioElement.addEventListener("timeupdate", () => {
-        setPosition(audioElement.currentTime);
-      });
-    }
-  }, []);
+  console.log(position);
+
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -107,6 +118,7 @@ const MusicPlayerSlider = () => {
         setDuration(Math.floor(audioElement.duration));
       });
 
+      // for changing dot position in slider element
       audioElement.addEventListener("timeupdate", () => {
         setPosition(audioElement.currentTime);
       });
@@ -179,7 +191,6 @@ const MusicPlayerSlider = () => {
           min={0}
           step={1}
           max={duration}
-          // onChange={(_, value) => setPosition(value as number)}
           onChange={handlePositionChange}
           sx={{
             color: theme.palette.mode === "dark" ? "#fff" : "rgba(0,0,0,0.87)",
@@ -232,10 +243,9 @@ const MusicPlayerSlider = () => {
             <FastRewindRounded fontSize="large" htmlColor={mainIconColor} />
           </IconButton>
           <IconButton
-            // aria-label={paused ? "play" : "pause"}
             // onClick={() => setPaused(!paused)}
-            aria-label={paused ? "play" : "pause"}
             onClick={handlePlayPause}
+            aria-label={paused ? "play" : "pause"}
           >
             {paused ? (
               <PlayArrowRounded
@@ -263,7 +273,7 @@ const MusicPlayerSlider = () => {
           <Slider
             aria-label="Volume"
             defaultValue={100}
-            onChange={handleVolumeChange}
+            onChange={(event, newValue) => handleVolumeChange(event, newValue)}
             sx={{
               color:
                 theme.palette.mode === "dark" ? "#fff" : "rgba(0,0,0,0.87)",
@@ -291,3 +301,16 @@ const MusicPlayerSlider = () => {
 };
 
 export default MusicPlayerSlider;
+
+
+
+
+
+  // useEffect(() => {
+  //   const audioElement = audioRef.current;
+  //   if (audioElement) {
+  //     audioElement.addEventListener("timeupdate", () => {
+  //       setPosition(audioElement.currentTime);
+  //     });
+  //   }
+  // }, []);

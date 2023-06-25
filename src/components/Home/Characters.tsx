@@ -110,7 +110,7 @@ const Characters = () => {
                         }}
                         checkedIcon={<Favorite sx={{ color: "red" }} />}
                       />
-                      <Typography># {character.id}</Typography>
+                      <Typography sx={{mb:"15px"}}># {character.id}</Typography>
                     </>
                   </CharacterCard>
                 </Grid>
@@ -128,7 +128,7 @@ const Characters = () => {
                         }}
                         checkedIcon={<Favorite sx={{ color: "red" }} />}
                       />
-                      <Typography># {character.id}</Typography>
+                      <Typography sx={{mb:"15px"}}># {character.id}</Typography>
                     </>
                   </CharacterCard>
                 </Grid>

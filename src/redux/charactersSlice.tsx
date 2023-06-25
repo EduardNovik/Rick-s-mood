@@ -18,15 +18,17 @@ type CharactersStateProp = {
   loading: boolean;
 };
 
+type InputSearchProp = {
+  page: number;
+  name: string;
+};
+
 const initialState: CharactersStateProp = {
   data: { info: { pages: 0, count: null }, results: [] },
   loading: false,
 };
 
-type InputSearchProp = {
-  page: number;
-  name: string;
-};
+
 const endpoint = "https://rickandmortyapi.com/graphql";
 
 const headers = { "content-type": "application/json" };
@@ -83,6 +85,9 @@ export const charactersSlice = createSlice({
     updateState: (state, action: PayloadAction<CharactersDataProp>) => {
       state.data = action.payload;
     },
+    updateLoadingState: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
@@ -97,8 +102,8 @@ export const charactersSlice = createSlice({
     );
     builder.addCase(
       fetchCharactersAsync.rejected,
-      (state, action: PayloadAction<any>) => {
-        console.log(action.payload);
+      ( state, action: PayloadAction<any>) => {
+        console.log(action.payload, state);
       }
     );
     builder.addCase(fetchCharactersAsync.pending, (state) => {
@@ -107,7 +112,7 @@ export const charactersSlice = createSlice({
   },
 });
 
-export const { updateState } = charactersSlice.actions;
+export const { updateState, updateLoadingState } = charactersSlice.actions;
 
 export default charactersSlice.reducer;
 
