@@ -19,13 +19,14 @@ const FavoriteCharacters = () => {
   };
 
   return (
-    <Box sx={{ width: "100%", mt: "150px"}}>
+    <Box sx={{ width: "100%", mt: "150px"}} >
       <Grid container spacing={2} sx={{
         justifyContent: 'center',
       }}>
         {charactersLS.map((character: CharacterResultsProp) => {
           return (
-            <Grid item key={character.id} sx={{mb:'30px'}}>
+            <Grid item key={character.id} sx={{mb:'30px'}} data-testid="FavoriteCharacters-component">
+              <h2>{character.name}</h2>
               <CharacterCard character={character}>
                 <Button
                   variant="outlined"
