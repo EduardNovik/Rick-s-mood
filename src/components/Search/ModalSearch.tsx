@@ -35,7 +35,7 @@ const ModalSearch: FC = (): ReactElement => {
   const characters = useSelector<any, CharacterResultsProp[]>(
     (state) => state.characters.data.results
   );
-  // console.log(characters);
+
 
   const handleSearchBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();

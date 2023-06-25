@@ -17,18 +17,19 @@ const CharacterCard: FC<CharacterCardProp> = ({
   character,
   children,
 }): ReactElement => {
-
   return (
     <Grid
+      data-testid="CharacterCard-component"
       item
       sx={{
         minWidth: { xs: "100px", md: "250px" },
       }}
     >
       <Card
+        data-testid="CharacterCard Card-component"
         sx={{
           maxWidth: 345,
-          m:'0 auto',
+          m: "0 auto",
           textAlign: "center",
           transition: "all 0.20s",
           "&:hover": {
@@ -52,9 +53,9 @@ const CharacterCard: FC<CharacterCardProp> = ({
             <Typography variant="body2" color="text.secondary">
               {character.location.name}
             </Typography>
-            {children}
           </CardContent>
         </CardActionArea>
+        {children}
       </Card>
     </Grid>
   );
