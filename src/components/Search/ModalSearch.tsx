@@ -88,7 +88,7 @@ const ModalSearch: FC = (): ReactElement => {
           >
             <TextField
               id="outlined-basic"
-              label="Outlined"
+              label="Type a character name"
               variant="outlined"
               value={inputData}
               onKeyDown={handleSearchInput}

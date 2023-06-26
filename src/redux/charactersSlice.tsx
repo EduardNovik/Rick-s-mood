@@ -3,13 +3,17 @@ import axios from "axios";
 
 export type CharacterResultsProp = {
   id: string;
+  name: string;
+  staus: string;
+  species: string;
+  gender: string;
   image: string;
   location: { dimension: string; type: string; name: string };
-  name: string;
+  episode: Array<{id:string, episode: string, name: string}>
 };
 
 export type CharactersDataProp = {
-  info: { pages: number; count: number|null };
+  info: { pages: number; count: number | null };
   results: CharacterResultsProp[];
 };
 
@@ -28,7 +32,6 @@ const initialState: CharactersStateProp = {
   loading: false,
 };
 
-
 const endpoint = "https://rickandmortyapi.com/graphql";
 
 const headers = { "content-type": "application/json" };
@@ -41,11 +44,19 @@ const graphqlQuery = ({ page, name }: InputSearchProp) => {
                 results {
                     id
                     name
+                    status
+                    species
                     image
+                    gender
                     location {
                     name
                     type
                     dimension
+                    }
+                    episode{
+                      id
+                      name
+                      episode
                     }
                 }
             }
@@ -54,30 +65,25 @@ const graphqlQuery = ({ page, name }: InputSearchProp) => {
   };
 };
 
-
-
-export const fetchCharactersAsync = createAsyncThunk<CharactersDataProp, InputSearchProp, { rejectValue: string }>(
-  "characters/fetchCharacters",
-  async (
-    { page, name },
-    { rejectWithValue }
-  ) => {
-    try {
-      const response = await axios({
-        url: endpoint,
-        method: "post",
-        headers: headers,
-        data: graphqlQuery({ page, name }),
-      });
-      // console.log(response.data.data);
-      return response.data.data.characters;
-    } catch (error: any) {
-      const errorMessage: string =
-        error.response.data.message || "Unknown error";
-      return rejectWithValue(errorMessage);
-    }
+export const fetchCharactersAsync = createAsyncThunk<
+  CharactersDataProp,
+  InputSearchProp,
+  { rejectValue: string }
+>("characters/fetchCharacters", async ({ page, name }, { rejectWithValue }) => {
+  try {
+    const response = await axios({
+      url: endpoint,
+      method: "post",
+      headers: headers,
+      data: graphqlQuery({ page, name }),
+    });
+    // console.log(response.data.data);
+    return response.data.data.characters;
+  } catch (error: any) {
+    const errorMessage: string = error.response.data.message || "Unknown error";
+    return rejectWithValue(errorMessage);
   }
-);
+});
 
 export const charactersSlice = createSlice({
   name: "characters",
@@ -103,7 +109,7 @@ export const charactersSlice = createSlice({
     );
     builder.addCase(
       fetchCharactersAsync.rejected,
-      ( state, action: PayloadAction<any>) => {
+      (state, action: PayloadAction<any>) => {
         console.log(action.payload, state);
       }
     );
@@ -116,11 +122,3 @@ export const charactersSlice = createSlice({
 export const { updateState, updateLoadingState } = charactersSlice.actions;
 
 export default charactersSlice.reducer;
-
-
-// if (Array.isArray(action.payload)) {
-//   state.data = [...state.data, ...action.payload];
-// } else {
-// }
-
- 
