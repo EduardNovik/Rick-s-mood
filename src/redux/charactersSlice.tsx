@@ -4,7 +4,7 @@ import axios from "axios";
 export type CharacterResultsProp = {
   id: string;
   image: string;
-  location: { dimension: string; name: string };
+  location: { dimension: string; type: string; name: string };
   name: string;
 };
 
@@ -44,6 +44,7 @@ const graphqlQuery = ({ page, name }: InputSearchProp) => {
                     image
                     location {
                     name
+                    type
                     dimension
                     }
                 }
@@ -68,7 +69,7 @@ export const fetchCharactersAsync = createAsyncThunk<CharactersDataProp, InputSe
         headers: headers,
         data: graphqlQuery({ page, name }),
       });
-      console.log(response.data.data);
+      // console.log(response.data.data);
       return response.data.data.characters;
     } catch (error: any) {
       const errorMessage: string =

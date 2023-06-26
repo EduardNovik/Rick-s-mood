@@ -1,5 +1,3 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
 import {
   createBrowserRouter,
   RouteObject,
@@ -10,6 +8,7 @@ import Error from "./Error";
 import Header from "../components/Header/Header";
 import About from "./About";
 import Favorites from "./Favorites";
+import Details from "./Details";
 import { FC, ReactElement } from "react";
 
 const routes: RouteObject[] = [
@@ -22,12 +21,16 @@ const routes: RouteObject[] = [
         element: <Home />,
       },
       {
-        path: "favorites",
+        path: "/favorites",
         element: <Favorites />,
       },
       {
         path: "about",
         element: <About />,
+      },
+      {
+        path: "/details",
+        element: <Details />,
       },
       {
         path: "*",
