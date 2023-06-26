@@ -7,8 +7,12 @@ import { CharacterResultsProp } from "../redux/charactersSlice";
 const character: CharacterResultsProp = {
   id: "1",
   name: "Rick",
+  staus: 'dead',
+  species: 'species',
+  gender: 'male',
   image: "rick.jpg",
-  location: { dimension: "Earth", name: "some name" },
+  location: { dimension: "Earth", name: "some name", type: 'Planet' },
+  episode: [{id:'episode id', episode: 'episode', name: 'episode name'}]
 };
 
 const children = <h4>Test Children</h4>;

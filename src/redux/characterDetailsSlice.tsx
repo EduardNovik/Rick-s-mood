@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CharacterResultsProp } from "./charactersSlice";
 
-type characterDetailsProp = {
-  data: Record<string, any>;
-};
+type CharDetailsInitialStateProp = {
+  data: CharacterResultsProp|[]
+}
 
-const initialState: characterDetailsProp = {
-  data: {}
+const initialState: CharDetailsInitialStateProp = {
+  data:[]
 };
 
 
@@ -13,7 +14,7 @@ export const characterDetailsSlice = createSlice({
   name: "characterDetails",
   initialState,
   reducers: {
-    updateCharacterDetailsState: (state, action: PayloadAction<Record<string, any>>) => {
+    updateCharacterDetailsState: (state, action: PayloadAction<CharacterResultsProp>) => {
       state.data = action.payload;
     },
   },

@@ -50,7 +50,6 @@ const Characters = () => {
   useEffect(() => {
     if (page > 1) {
       dispatch(fetchCharactersAsync({ page: page, name: inputState }));
-      console.log(page);
     }
   }, [page, inputState]);
 

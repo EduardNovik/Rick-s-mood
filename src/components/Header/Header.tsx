@@ -145,11 +145,7 @@ const Header: FC = (): ReactElement => {
               sx={{
                 display: { xs: "flex", md: "none" },
                 mr: 1,
-                flexGrow: 1,
-                transition: "all 0.2s",
-                "&:hover": {
-                  transform: "scale(95%)",
-                },
+                flexGrow: 1
               }}
             >
               <img src={logo} alt="logo" style={{ height: "55px" }} />

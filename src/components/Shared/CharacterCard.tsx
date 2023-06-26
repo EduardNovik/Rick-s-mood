@@ -5,7 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import { updateCharacterDetailsState } from "../../redux/characterDetails";
+import { updateCharacterDetailsState } from "../../redux/characterDetailsSlice";
 
 import { CharacterResultsProp } from "../../redux/charactersSlice";
 import { useNavigate } from "react-router-dom";
@@ -24,10 +24,9 @@ const CharacterCard: FC<CharacterCardProp> = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const navigateToDetails = (character: Record<string, any>) => {
-    console.log(character);
+  const navigateToDetails = (character: CharacterResultsProp) => {
     dispatch(updateCharacterDetailsState(character))
-    navigate("/details");
+    navigate("/details")
   };
 
   return (
