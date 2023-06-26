@@ -5,8 +5,11 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import { updateCharacterDetailsState } from "../../redux/characterDetails";
 
 import { CharacterResultsProp } from "../../redux/charactersSlice";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 type CharacterCardProp = {
   character: CharacterResultsProp;
@@ -17,6 +20,16 @@ const CharacterCard: FC<CharacterCardProp> = ({
   character,
   children,
 }): ReactElement => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const navigateToDetails = (character: Record<string, any>) => {
+    console.log(character);
+    dispatch(updateCharacterDetailsState(character))
+    navigate("/details");
+  };
+
   return (
     <Grid
       data-testid="CharacterCard-component"
@@ -38,7 +51,7 @@ const CharacterCard: FC<CharacterCardProp> = ({
           },
         }}
       >
-        <CardActionArea>
+        <CardActionArea onClick={() => navigateToDetails(character)}>
           <CardMedia
             component="img"
             height="340"

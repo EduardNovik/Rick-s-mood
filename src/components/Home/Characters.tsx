@@ -8,7 +8,7 @@ import useLoacalStorage from "../../services/useLoacalStorage";
 import { CharacterResultsProp } from "../../redux/charactersSlice";
 import { fetchCharactersAsync } from "../../redux/charactersSlice";
 import { useDispatch } from "react-redux";
-import { useEffect, useRef, useCallback, ReactNode, useState } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { AppDispatch, RootState } from "../../redux/store";
 
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
@@ -23,6 +23,7 @@ const Characters = () => {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch<AppDispatch>();
 
+
   const characters = useSelector<any, CharacterResultsProp[] | []>(
     (state) => state.characters.data.results
   );
@@ -30,19 +31,16 @@ const Characters = () => {
     (state) => state.characters.loading
   );
 
-  // can be number of null if there is no more characters left after fetching
+  // can be number or null if there is no more characters left after fetching
   const count = useSelector<RootState, number | null>(
     (state) => state.characters.data.info.count
   );
-  console.log(count);
+
 
   const inputState = useSelector<RootState, string>(
     (state) => state.inputState.data
   );
 
-  useEffect(() => {
-    console.log(inputState);
-  }, [inputState]);
 
   useEffect(() => {
     dispatch(updateState({ info: { pages: 0, count: 0 }, results: [] }));

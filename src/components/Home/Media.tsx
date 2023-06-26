@@ -108,8 +108,6 @@ const MusicPlayerSlider = () => {
     }
   };
 
-  console.log(position);
-
 
   useEffect(() => {
     const audioElement = audioRef.current;
