@@ -1,0 +1,14 @@
+#!/bin/sh
+
+commit_msg_file="$1"
+
+commit_msg=$(cat "$commit_msg_file")
+
+# Define your desired commit message pattern
+commit_msg_pattern="^(feat|fix|chore|docs|style|refactor|test): .+"
+
+if ! echo "$commit_msg" | grep -qE "$commit_msg_pattern"; then
+  echo "Invalid commit message format. Please use the correct format."
+  echo "Example: feat: Add new feature"
+  exit 1
+fi
