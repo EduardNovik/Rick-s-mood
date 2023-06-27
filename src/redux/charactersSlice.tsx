@@ -4,7 +4,7 @@ import axios from "axios";
 export type CharacterResultsProp = {
   id: string;
   name: string;
-  staus: string;
+  status: string;
   species: string;
   gender: string;
   image: string;

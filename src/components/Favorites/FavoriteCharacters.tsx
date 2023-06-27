@@ -1,14 +1,15 @@
 import Grid from "@mui/material/Grid";
-
 import Box from "@mui/material/Box";
-
 import useLoacalStorage from "../../services/useLoacalStorage";
 import CharacterCard from "../Shared/CharacterCard";
 import { CharacterResultsProp } from "../../redux/charactersSlice";
 import { Button } from "@mui/material";
 import NavBtn from "../Shared/NavBtn";
+import { FC, ReactElement } from "react";
 
-const FavoriteCharacters = () => {
+
+
+const FavoriteCharacters: FC = (): ReactElement => {
 
   const [charactersLS, setCharactersLS] = useLoacalStorage("characters");
 
@@ -44,6 +45,5 @@ const FavoriteCharacters = () => {
     </Box>
   );
 };
-{/* <Grid container rowSpacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> */}
 
 export default FavoriteCharacters;
