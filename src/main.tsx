@@ -12,5 +12,7 @@ import { store } from "./redux/store.tsx";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Provider store={store}>
     <App />
+
+    
   </Provider>
 );
