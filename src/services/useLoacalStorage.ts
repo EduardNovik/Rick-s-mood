@@ -1,12 +1,16 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { CharacterResultsProp } from "../redux/charactersSlice";
 
-const useLoacalStorage = (key:string) => {
 
-  const [charactersLS, setCharactersLS] = useState(() => {
+type SetCharactersLSProp = Dispatch<SetStateAction<CharacterResultsProp[] | []>>;
+
+const useLoacalStorage = (key:string): [CharacterResultsProp[], SetCharactersLSProp] => {
+
+  const [charactersLS, setCharactersLS] = useState<[] | CharacterResultsProp[]>(() => {
 
     const getLS = localStorage.getItem(key);
     if (getLS) {
-      return JSON.parse(getLS);
+      return JSON.parse(getLS) as CharacterResultsProp[];
     } else {
       return [];
     }

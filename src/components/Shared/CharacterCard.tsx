@@ -8,25 +8,27 @@ import Grid from "@mui/material/Grid";
 import { updateCharacterDetailsState } from "../../redux/characterDetailsSlice";
 
 import { CharacterResultsProp } from "../../redux/charactersSlice";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
 
 type CharacterCardProp = {
   character: CharacterResultsProp;
   children: ReactElement;
 };
+type navigateToDetailsProp = (character: CharacterResultsProp) => void;
 
 const CharacterCard: FC<CharacterCardProp> = ({
   character,
   children,
 }): ReactElement => {
+  
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate: NavigateFunction = useNavigate();
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const navigateToDetails = (character: CharacterResultsProp) => {
-    dispatch(updateCharacterDetailsState(character))
-    navigate("/details")
+  const navigateToDetails: navigateToDetailsProp = (character) => {
+    dispatch(updateCharacterDetailsState(character));
+    navigate("/details");
   };
 
   return (
@@ -44,6 +46,8 @@ const CharacterCard: FC<CharacterCardProp> = ({
           m: "0 auto",
           textAlign: "center",
           transition: "all 0.20s",
+          ml: { xs: "10px", md: "auto" },
+          mr: { xs: "10px", md: "auto" },
           "&:hover": {
             boxShadow: "0px 0px 20px 6px pink",
             transform: "scale(95%)",

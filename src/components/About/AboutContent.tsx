@@ -1,7 +1,9 @@
 import { Box, Paper, Typography, styled } from "@mui/material";
 import aboutPhoto from "../../assets/aboutPhoto.jpg";
+import { FC, ReactElement } from "react";
 
-const AboutContent = () => {
+const AboutContent:FC = ():ReactElement => {
+  
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,

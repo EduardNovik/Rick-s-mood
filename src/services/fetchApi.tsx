@@ -1,8 +1,8 @@
-import axios from "axios";
+// import axios from "axios";
 
-type VariablesProp = {
-  filter: { name: string };
-};
+// type VariablesProp = {
+//   filter: { name: string };
+// };
 
 // Option 1 with fetch
 
@@ -41,36 +41,36 @@ type VariablesProp = {
 
 // Option 2 with axios
 
-const endpoint = "https://rickandmortyapi.com/graphql";
+// const endpoint = "https://rickandmortyapi.com/graphql";
 
-const headers = { "content-type": "application/json" };
+// const headers = { "content-type": "application/json" };
 
-const graphqlQuery = (variables: VariablesProp) => {
-  return {
-    query: `query allCharacters ($filter:FilterCharacter){
-                characters(filter:$filter){
-                info{pages}
-                results {
-                    id
-                    name
-                    image
-                    location {
-                    name
-                    dimension
-                    }
-                }
-            }
-        }`,
-    variables: {filter: {name: variables}},
-  };
-};
+// const graphqlQuery = (variables: VariablesProp) => {
+//   return {
+//     query: `query allCharacters ($filter:FilterCharacter){
+//                 characters(filter:$filter){
+//                 info{pages}
+//                 results {
+//                     id
+//                     name
+//                     image
+//                     location {
+//                     name
+//                     dimension
+//                     }
+//                 }
+//             }
+//         }`,
+//     variables: {filter: {name: variables}},
+//   };
+// };
 
-export const fetchAllCharacters = async(searchValue: VariablesProp) => {
-   const response = await axios({
-    url: endpoint,
-    method: "post",
-    headers: headers,
-    data: graphqlQuery(searchValue),
-  });
-  return console.log(response.data.data.characters);
-};
+// export const fetchAllCharacters = async(searchValue: VariablesProp) => {
+//    const response = await axios({
+//     url: endpoint,
+//     method: "post",
+//     headers: headers,
+//     data: graphqlQuery(searchValue),
+//   });
+//   return console.log(response.data.data.characters);
+// };

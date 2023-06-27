@@ -2,10 +2,28 @@ import { render, screen } from "@testing-library/react";
 import FavoriteCharacters from "../components/Favorites/FavoriteCharacters";
 import "jest-localstorage-mock";
 import "@testing-library/jest-dom";
+import { Provider } from "react-redux";
+import { CharacterResultsProp } from "../redux/charactersSlice";
+import configureStore from "redux-mock-store";
+import { MemoryRouter } from "react-router-dom";
 
 interface LocalStorageMock {
   [key: string]: string;
 }
+
+const character: CharacterResultsProp = {
+  id: "1",
+  name: "Rick",
+  status: "dead",
+  species: "species",
+  gender: "male",
+  image: "rick.jpg",
+  location: { dimension: "Earth", name: "some name", type: "Planet" },
+  episode: [{ id: "episode id", episode: "episode", name: "episode name" }],
+};
+
+const mockStore = configureStore();
+const store = mockStore(character);
 
 const localStorageMock = (function () {
   let store: LocalStorageMock = {};
@@ -46,7 +64,13 @@ describe("FavoriteCharacters Local storage", () => {
   });
 
   test("renders without errors", () => {
-    render(<FavoriteCharacters />);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <FavoriteCharacters />
+        </MemoryRouter>
+      </Provider>
+    );
   });
 
   test("data is added into local storage", () => {
@@ -79,7 +103,13 @@ describe("FavoriteCharacters Local storage", () => {
     const mockId = "characters";
     setLocalStorage(mockId, characters);
 
-    render(<FavoriteCharacters />);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <FavoriteCharacters />
+        </MemoryRouter>
+      </Provider>
+    );
 
     const storedData = JSON.parse(window.localStorage.getItem(mockId) || "[]");
     const FavoriteCharactersElem = screen.getAllByText("Rick");
@@ -110,7 +140,13 @@ describe("FavoriteCharacters Local storage", () => {
     setLocalStorage(mockId, characters);
     window.localStorage.clear();
 
-    render(<FavoriteCharacters />);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <FavoriteCharacters />
+        </MemoryRouter>
+      </Provider>
+    );
 
     const FavoriteCharactersElem = screen.queryByTestId(
       "FavoriteCharacters-component"
@@ -162,8 +198,6 @@ describe("FavoriteCharacters Local storage", () => {
 //     expect(screen.queryByText(/Rick/)).toBeInTheDocument();
 //     expect(screen.queryByText(/Morty/)).toBeInTheDocument();
 //   });
-
-
 
 //   test("removes character from local storage when remove button is clicked", () => {
 //     const characters = [{ id: 1, name: "Character 1" }];

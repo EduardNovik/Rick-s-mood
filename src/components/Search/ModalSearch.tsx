@@ -11,7 +11,7 @@ import { CharacterResultsProp } from "../../redux/charactersSlice";
 
 import { fetchCharactersAsync } from "../../redux/charactersSlice";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux/es/exports";
+
 import { updateState } from "../../redux/charactersSlice";
 import { updateInputState } from "../../redux/inputSlice";
 
@@ -27,15 +27,12 @@ const style = {
 };
 
 const ModalSearch: FC = (): ReactElement => {
-  const [open, setOpen] = React.useState<boolean>(false);
+  
+  const [open, setOpen] = useState<boolean>(false);
   const [inputData, setInputData] = useState<string>("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const dispatch = useDispatch<AppDispatch>();
-  const characters = useSelector<any, CharacterResultsProp[]>(
-    (state) => state.characters.data.results
-  );
-
 
   const handleSearchBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -59,9 +56,7 @@ const ModalSearch: FC = (): ReactElement => {
       <Button
         onClick={handleOpen}
         sx={{
-
           color: "white",
-
           "&:hover": {
             backgroundColor: "transparent",
           },
@@ -94,7 +89,18 @@ const ModalSearch: FC = (): ReactElement => {
               onKeyDown={handleSearchInput}
               onChange={(e) => setInputData(e.target.value)}
             />
-            <Button variant="outlined" size="small" onClick={handleSearchBtn}>
+
+            <Button
+              variant="contained"
+              size="small"
+              onClick={handleSearchBtn}
+              sx={{
+                maxWidth: "80px",
+                color:'#404040',
+                background:
+                  "radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)",
+              }}
+            >
               Search
             </Button>
           </Box>

@@ -25,8 +25,6 @@ const Widget = styled("div")(({ theme }) => ({
   zIndex: 1,
   boxShadow: "0px 0px 20px 0px dimgray",
   background: 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)',
-  // backgroundColor:
-  //   theme.palette.mode === "dark" ? "rgba(0,0,0,0.6)" : "rgba(255,255,255,0.4)",
   backdropFilter: "blur(40px)",
 }));
 
@@ -55,12 +53,12 @@ const TinyText = styled(Typography)({
 
 const MusicPlayerSlider = () => {
   const theme = useTheme();
-  const [position, setPosition] = useState(0);
-  const [paused, setPaused] = useState(true);
+  const [position, setPosition] = useState<number>(0);
+  const [paused, setPaused] = useState<boolean>(true);
 
   // -----------------------
-  const [volume, setVolume] = useState(100);
-  const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState<number>(100);
+  const [duration, setDuration] = useState<number>(0);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -91,17 +89,11 @@ const MusicPlayerSlider = () => {
 
   const handlePositionChange = (event: any, newValue: number| number[]) => {
     const audioElement = audioRef.current;
-    console.log(audioRef.current)
-    console.log(newValue);
-    console.log('are you working?');
     if (audioElement) {
       if(Array.isArray(newValue)){
         audioElement.currentTime = newValue[newValue.length-1];
         setPosition(newValue[newValue.length-1]);
-        console.log(newValue[newValue.length-1], 'hey array');
       }else{
-        console.log('hey gay');
-        console.log(event.target.value);
         audioElement.currentTime = newValue;
         setPosition(newValue);     
       }
@@ -132,8 +124,7 @@ const MusicPlayerSlider = () => {
     return `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
   }
   const mainIconColor = theme.palette.mode === "dark" ? "#fff" : "#000";
-  const lightIconColor =
-    theme.palette.mode === "dark" ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)";
+  const lightIconColor = theme.palette.mode === "dark" ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)";
 
   return (
     <Box
@@ -299,16 +290,3 @@ const MusicPlayerSlider = () => {
 };
 
 export default MusicPlayerSlider;
-
-
-
-
-
-  // useEffect(() => {
-  //   const audioElement = audioRef.current;
-  //   if (audioElement) {
-  //     audioElement.addEventListener("timeupdate", () => {
-  //       setPosition(audioElement.currentTime);
-  //     });
-  //   }
-  // }, []);

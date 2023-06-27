@@ -8,7 +8,14 @@ import useLoacalStorage from "../../services/useLoacalStorage";
 import { CharacterResultsProp } from "../../redux/charactersSlice";
 import { fetchCharactersAsync } from "../../redux/charactersSlice";
 import { useDispatch } from "react-redux";
-import { useEffect, useRef, useCallback, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useCallback,
+  useState,
+  FC,
+  ReactElement,
+} from "react";
 import { AppDispatch, RootState } from "../../redux/store";
 
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
@@ -18,11 +25,10 @@ import Loader from "../Shared/Loader";
 import NavBtn from "../Shared/NavBtn";
 import { updateState } from "../../redux/charactersSlice";
 
-const Characters = () => {
+const Characters: FC = (): ReactElement => {
   const [charactersLS, setCharactersLS] = useLoacalStorage("characters");
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
   const dispatch = useDispatch<AppDispatch>();
-
 
   const characters = useSelector<any, CharacterResultsProp[] | []>(
     (state) => state.characters.data.results
@@ -36,11 +42,9 @@ const Characters = () => {
     (state) => state.characters.data.info.count
   );
 
-
   const inputState = useSelector<RootState, string>(
     (state) => state.inputState.data
   );
-
 
   useEffect(() => {
     dispatch(updateState({ info: { pages: 0, count: 0 }, results: [] }));
@@ -60,6 +64,10 @@ const Characters = () => {
     (node: HTMLDivElement) => {
       if (loading) return;
       if (observer.current) observer.current.disconnect();
+
+      // Later, in the lastCharacter callback function, this observer variable is assigned a new IntersectionObserver instance:
+      // observer.current is assigned an instance of the IntersectionObserver class, and that instance is used to observe the element.
+      // The observe method of the IntersectionObserver instance is called with the element (node) passed as an argument.
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && count !== null) {
           setPage((prevPage) => prevPage + 1);
@@ -86,9 +94,10 @@ const Characters = () => {
       sx={{
         flexGrow: 1,
         p: "24px",
-        pt:'100px',
+        pt: "100px",
         textAlign: "center",
-        background:'linear-gradient(0deg, rgba(82,82,82,1) 76%, rgba(255,255,255,1) 100%, rgba(255,255,255,0.05646008403361347) 100%)'
+        background:
+          "linear-gradient(0deg, rgba(82,82,82,1) 76%, rgba(255,255,255,1) 100%, rgba(255,255,255,0.05646008403361347) 100%)",
       }}
     >
       <Grid container rowSpacing={7} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
@@ -107,7 +116,9 @@ const Characters = () => {
                         }}
                         checkedIcon={<Favorite sx={{ color: "red" }} />}
                       />
-                      <Typography sx={{mb:"15px"}}># {character.id}</Typography>
+                      <Typography sx={{ mb: "15px" }}>
+                        # {character.id}
+                      </Typography>
                     </>
                   </CharacterCard>
                 </Grid>
@@ -125,7 +136,9 @@ const Characters = () => {
                         }}
                         checkedIcon={<Favorite sx={{ color: "red" }} />}
                       />
-                      <Typography sx={{mb:"15px"}}># {character.id}</Typography>
+                      <Typography sx={{ mb: "15px" }}>
+                        # {character.id}
+                      </Typography>
                     </>
                   </CharacterCard>
                 </Grid>

@@ -7,39 +7,27 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useState } from "react";
 import { Outlet } from "react-router-dom";
 import ModalSearch from "../Search/ModalSearch";
+
+type handleCloseNavMenuProp = () => void;
 
 const pages: string[] = ["Home", "Favorites", "About"];
 
 const Header: FC = (): ReactElement => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu: handleCloseNavMenuProp = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   return (
@@ -145,7 +133,7 @@ const Header: FC = (): ReactElement => {
               sx={{
                 display: { xs: "flex", md: "none" },
                 mr: 1,
-                flexGrow: 1
+                flexGrow: 1,
               }}
             >
               <img src={logo} alt="logo" style={{ height: "55px" }} />
