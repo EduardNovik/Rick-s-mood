@@ -11,12 +11,5 @@ import { store } from "./redux/store.tsx";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Provider store={store}>
     <App />
-
-
   </Provider>
 )
-// main origin stuff
-// origin test3
-// origin test9 
-// local test3
-// local test9
